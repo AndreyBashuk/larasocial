@@ -7,6 +7,7 @@ import 'babel-polyfill';
 import store from './store';
 import router from './router';
 import App from './App';
+import VAnimateCss from 'v-animate-css';
 
 Vue.config.productionTip = false;
 Vue.config.devtools = true;
@@ -24,6 +25,8 @@ router.beforeEach((to, from, next) => {
 });
 
 Vue.use(Vuetify);
+Vue.use(VAnimateCss);
+
 /* eslint-disable no-new */
 new Vue({
   el: '#app',

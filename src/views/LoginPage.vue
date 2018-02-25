@@ -1,7 +1,8 @@
 <template>
   <v-container
     fluid
-    fill-height>
+    fill-height
+    v-animate-css="'rotateInDownRight'">
     <v-layout
       align-center
       justify-center>
@@ -48,7 +49,8 @@
                 v-model="login.password">
               </v-text-field>
             </v-form>
-            <v-alert type="error" :value="authStore.errors && authStore.errors.email != null" transition="scale-transition">
+            <v-alert type="error" :value="authStore.errors && authStore.errors.email != null"
+                     transition="scale-transition">
               {{authStore.errors && authStore.errors.email ? authStore.errors.email[0] : ''}}
             </v-alert>
           </v-card-text>
@@ -58,11 +60,14 @@
               <v-btn
                 color="warning"
                 to="/auth/register"
-                dark>Register</v-btn>
+                dark>Register
+              </v-btn>
             </v-spacer>
             <v-btn
               color="primary"
-              @click="handleLogin">Login</v-btn>
+              v-animate-css.click="'bounceIn'"
+              @click="handleLogin">Login
+            </v-btn>
           </v-card-actions>
         </v-card>
       </v-flex>
@@ -71,37 +76,37 @@
 </template>
 
 <script>
-import axios from 'axios';
-import { API_URI } from '../env';
-import apiRequest from '../utils/apiRequest';
-import { mapState } from 'vuex';
+  import axios from 'axios'
+  import { API_URI } from '../env'
+  import apiRequest from '../utils/apiRequest'
+  import { mapState } from 'vuex'
 
-export default {
-  data: () => ({
-    drawer: null,
-    login: {
-      email: '96andlgrac@gmail.com',
-      password: '123456',
-    },
-  }),
-  props: {
-    source: String,
-  },
-
-  computed: {
-    ...mapState({
-      authStore: state => state.authStore,
+  export default {
+    data: () => ({
+      drawer: null,
+      login: {
+        email: '96andlgrac@gmail.com',
+        password: '123456',
+      },
     }),
-  },
-
-  methods: {
-    handleLogin() {
-      this.$store.dispatch('loginUser', this.login).then(() => {
-        this.$router.push('/');
-      });
+    props: {
+      source: String,
     },
-  },
-};
+
+    computed: {
+      ...mapState({
+        authStore: state => state.authStore,
+      }),
+    },
+
+    methods: {
+      handleLogin () {
+        this.$store.dispatch('loginUser', this.login).then(() => {
+          this.$router.push('/')
+        })
+      },
+    },
+  }
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
@@ -109,14 +114,17 @@ export default {
   h1, h2 {
     font-weight: normal;
   }
+
   ul {
     list-style-type: none;
     padding: 0;
   }
+
   li {
     display: inline-block;
     margin: 0 10px;
   }
+
   a {
     color: #42b983;
   }

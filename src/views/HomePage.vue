@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-animate-css="'fadeIn'">
     <v-navigation-drawer
       clipped
       fixed
@@ -54,14 +54,13 @@
     </v-footer>
   </div>
 </template>
-
 <script>
-export default {
-  data: () => ({
-    drawer: true,
-  }),
-  props: {
-    source: String,
-  },
-};
+  export default {
+    data: () => ({
+      drawer: true,
+    }),
+    props: {
+      source: String,
+    },
+  }
 </script>
