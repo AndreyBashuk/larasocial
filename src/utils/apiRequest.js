@@ -1,11 +1,12 @@
 import axios from 'axios';
-import { API_URI , tokenUrl, loginUrl,  apiClientSecret, apiClientId  } from '../env';
+import { API_URI, tokenUrl, loginUrl, apiClientSecret, apiClientId } from '../env';
 
 function headers() {
+  const accessToken = JSON.parse(window.localStorage.getItem('authUser')).access_token;
   return {
     headers: {
       Accept: 'application/json',
-      Authorization: `Bearer ${localStorage.getItem('access_token')}`,
+      Authorization: `Bearer ${accessToken}`,
     },
   };
 }
@@ -31,7 +32,7 @@ export default class apiRequest {
     return axios.get(`${API_URI}/${path}`, headers());
   }
 
-  static authToken({email, password}) {
+  static authToken({ email, password }) {
     const postData = {
       grant_type: 'password',
       client_id: apiClientId,
@@ -43,7 +44,7 @@ export default class apiRequest {
     return axios.post(tokenUrl, postData);
   }
 
-  static loginUser({email, password}) {
-    return axios.post(loginUrl, {email, password});
+  static loginUser({ email, password }) {
+    return axios.post(loginUrl, { email, password });
   }
 }

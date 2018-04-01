@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import Router from 'vue-router';
-const HomePage  = () => import('@/views/HomePage');
+
+const HomePage = () => import('@/views/HomePage');
 const LoginPage = () => import('@/views/LoginPage');
 const RegisterPage = () => import('@/views/RegisterPage');
 

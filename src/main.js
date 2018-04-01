@@ -4,13 +4,11 @@ import Vue from 'vue';
 import Vuetify from 'vuetify';
 import 'vuetify/dist/vuetify.min.css';
 import 'babel-polyfill';
+import VAnimateCss from 'v-animate-css';
 import store from './store';
 import router from './router';
 import App from './App';
-import VAnimateCss from 'v-animate-css';
 
-Vue.config.productionTip = false;
-Vue.config.devtools = true;
 
 router.beforeEach((to, from, next) => {
   if (to.meta.requiresAuth) {

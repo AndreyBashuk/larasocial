@@ -15,7 +15,7 @@
             dark
             color="primary">
             <v-toolbar-title>Login form</v-toolbar-title>
-            <v-spacer></v-spacer>
+            <v-spacer/>
             <v-tooltip bottom>
               <v-btn
                 icon
@@ -37,8 +37,7 @@
                 label="Email"
                 type="text"
                 :disabled="authStore.isLoading"
-                v-model="login.email">
-              </v-text-field>
+                v-model="login.email"/>
               <v-text-field
                 prepend-icon="lock"
                 name="password"
@@ -46,12 +45,13 @@
                 id="password"
                 type="password"
                 :disabled="authStore.isLoading"
-                v-model="login.password">
-              </v-text-field>
+                v-model="login.password"/>
             </v-form>
-            <v-alert type="error" :value="authStore.errors && authStore.errors.email != null"
-                     transition="scale-transition">
-              {{authStore.errors && authStore.errors.email ? authStore.errors.email[0] : ''}}
+            <v-alert
+              type="error"
+              :value="authStore.errors && authStore.errors.email != null"
+              transition="scale-transition">
+              {{ authStore.errors && authStore.errors.email ? authStore.errors.email[0] : '' }}
             </v-alert>
           </v-card-text>
           <v-card-actions>
@@ -76,37 +76,35 @@
 </template>
 
 <script>
-  import axios from 'axios'
-  import { API_URI } from '../env'
-  import apiRequest from '../utils/apiRequest'
-  import { mapState } from 'vuex'
 
-  export default {
-    data: () => ({
-      drawer: null,
-      login: {
-        email: '96andlgrac@gmail.com',
-        password: '123456',
-      },
+import { mapState } from 'vuex';
+
+export default {
+  props: {
+    source: String,
+  },
+  data: () => ({
+    drawer: null,
+    login: {
+      email: '96andlgrac@gmail.com',
+      password: '123456',
+    },
+  }),
+
+  computed: {
+    ...mapState({
+      authStore: state => state.authStore,
     }),
-    props: {
-      source: String,
-    },
+  },
 
-    computed: {
-      ...mapState({
-        authStore: state => state.authStore,
-      }),
+  methods: {
+    handleLogin() {
+      this.$store.dispatch('loginUser', this.login).then(() => {
+        this.$router.push('/');
+      });
     },
-
-    methods: {
-      handleLogin () {
-        this.$store.dispatch('loginUser', this.login).then(() => {
-          this.$router.push('/')
-        })
-      },
-    },
-  }
+  },
+};
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->

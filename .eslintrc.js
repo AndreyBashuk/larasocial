@@ -13,7 +13,7 @@ module.exports = {
     'airbnb-base',
     'plugin:vue/essential',
     'plugin:vue/base',
-    // 'plugin:vue/strongly-recommended',
+    'plugin:vue/strongly-recommended',
     'plugin:vue/recommended'
   ],
   // required to lint *.vue files

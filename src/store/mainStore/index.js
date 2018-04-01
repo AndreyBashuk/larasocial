@@ -6,9 +6,7 @@ import mutations from './mutations';
 Vue.use(Vuex);
 
 const state = {
-  authUser: null,
-  errors: null,
-  errorMessage: null,
+  chats: null,
   isLoading: false,
   status: null,
 };
