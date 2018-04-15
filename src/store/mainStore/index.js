@@ -9,6 +9,10 @@ const state = {
   chats: null,
   isLoading: false,
   status: null,
+  sendMessageLoading: false,
+  sendMessageError: null,
+  paginatedMessageLoading: false,
+  paginatedMessageError: null,
 };
 
 export default {

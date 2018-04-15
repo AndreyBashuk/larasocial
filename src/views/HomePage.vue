@@ -5,24 +5,7 @@
     <v-container
       fluid
       fill-height>
-      <v-layout
-        justify-center
-        align-center>
-        <v-flex shrink>
-          <v-tooltip right>
-            <v-btn
-              icon
-              large
-              :href="source"
-              target="_blank"
-              slot="activator"
-            >
-              <v-icon large>code</v-icon>
-            </v-btn>
-            <span>Source</span>
-          </v-tooltip>
-        </v-flex>
-      </v-layout>
+      <chats :chat_id="chat_id"/>
     </v-container>
     <footer-nav/>
   </v-content>
@@ -30,7 +13,7 @@
 <script>
 
 import { mapState } from 'vuex';
-import { LeftPanel, HeaderNav, FooterNav } from '../common/';
+import { LeftPanel, HeaderNav, FooterNav, Chats } from '../common/';
 
 
 export default {
@@ -39,9 +22,15 @@ export default {
     LeftPanel,
     HeaderNav,
     FooterNav,
+    Chats,
   },
   props: {
     source: String,
+    chat_id: {
+      type: String,
+      required: false,
+      default: null,
+    },
   },
 
   data: () => ({
@@ -58,9 +47,7 @@ export default {
     const authUser = JSON.parse(window.localStorage.getItem('authUser'));
     if (authUser && authUser.access_token) {
       await this.$store.dispatch('userData');
-      await this.$store.dispatch('fetchChats', {
-        userId: this.authStore.authUser.id,
-      });
+      await this.$store.dispatch('fetchChats');
     }
   },
 };

@@ -1,8 +1,8 @@
 <template>
   <v-navigation-drawer
+    v-model="drawer"
     clipped
     fixed
-    v-model="drawer"
     app
   >
     <v-list dense>
@@ -26,16 +26,29 @@
     <v-subheader class="mt-3 grey--text text--darken-1">SUBSCRIPTIONS</v-subheader>
     <v-list>
       <v-list-tile
-        v-for="item in items2"
-        :key="item.text"
-        avatar
-        @click="">
-        <v-list-tile-avatar>
-          <img
-            :src="`https://randomuser.me/api/portraits/men/${item.picture}.jpg`"
-            alt="">
-        </v-list-tile-avatar>
-        <v-list-tile-title v-text="item.text"/>
+        v-for="chat in chats"
+        :key="chat.id"
+        :to="/chat/+chat.id"
+        avatar>
+        <template v-if="chat.is_conversation">
+          <v-list-tile-avatar v-if="chat.is_conversation">
+            <img
+              :src="SITE_URI+chat.users[0].avatar"
+              alt="">
+          </v-list-tile-avatar>
+          <v-list-tile-title
+            v-if="chat.is_conversation"
+            v-text="chat.users[0].name"/>
+        </template>
+        <template v-else>
+          <v-list-tile-avatar >
+            <img
+              :src="SITE_URI+chat.avatar"
+              alt="">
+          </v-list-tile-avatar>
+          <v-list-tile-title
+            v-text="chat.name"/>
+        </template>
       </v-list-tile>
     </v-list>
   </v-navigation-drawer>
@@ -43,21 +56,17 @@
 <script>
 
 import { mapState } from 'vuex';
+import { SITE_URI } from '../env';
 
 export default {
   data: () => ({
     drawer: true,
-    items2: [
-      { picture: 28, text: 'Joseph' },
-      { picture: 38, text: 'Apple' },
-      { picture: 48, text: 'Xbox Ahoy' },
-      { picture: 58, text: 'Nokia' },
-      { picture: 78, text: 'MKBHD' },
-    ],
+    SITE_URI,
   }),
   computed: {
     ...mapState({
       authStore: state => state.authStore,
+      chats: state => state.mainStore.chats,
     }),
   },
 };
