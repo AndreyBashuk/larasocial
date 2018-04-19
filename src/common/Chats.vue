@@ -30,12 +30,6 @@ export default {
     'chat_id',
   ],
 
-  watch: {
-    chats() {
-      alert("CHAT CHANGED");
-    },
-  },
-
   data() {
     return {
       content: '',

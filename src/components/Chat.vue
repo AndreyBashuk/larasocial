@@ -1,7 +1,7 @@
 <template>
   <div>
     <message
-      :messages="messages"
+      :messages="chat.messages"
       @scroll="handleScroll"
       class="chat-container"/>
     <div class="typer">
@@ -21,9 +21,10 @@
 </template>
 
 <script>
-import { throttle } from 'lodash';
+import { debounce } from 'lodash';
 import Message from './Message.vue';
 import EmojiPicker from './EmojiPicker.vue';
+import { API_URI } from '../env';
 
 export default {
   components: {
@@ -40,10 +41,8 @@ export default {
   },
   data() {
     return {
-      messages: this.chat.messages,
       newMessage: '',
-      next_page_url: `message/${this.chat.id}?page=2`,
-      throttle,
+      next_page_url: `${API_URI}/message/${this.chat.id}?page=2`,
     };
   },
 
@@ -62,6 +61,24 @@ export default {
     },
   },
 
+  created() {
+    setTimeout(() => {
+      window.Echo.join(`chat.${this.chat.id}`)
+        .here((users) => {
+          console.log(users);
+        })
+        .joining((user) => {
+          console.log(user.name);
+        })
+        .leaving((user) => {
+          console.log(user.name);
+        })
+        .listen('NewMessage', (e) => {
+          console.log(e);
+        });
+    }, 1000);
+  },
+
   methods: {
     scrollToEnd() {
       const chatContainer = this.$el.querySelector('.chat-container');
@@ -78,19 +95,21 @@ export default {
       }
     },
     handleScroll:
-      throttle(function () {
+      debounce(function () {
         if (this.next_page_url !== null) {
           const chatContainer = this.$el.querySelector('.chat-container');
+          const prevScrollHeight = chatContainer.scrollHeight;
           if (chatContainer.scrollTop < 300) {
             this.$store.dispatch('paginateMessage', {
               chatId: this.chat.id,
               next_page_url: this.next_page_url,
             }).then((nextPageUrl) => {
               this.next_page_url = nextPageUrl;
+              chatContainer.scrollTop += chatContainer.scrollHeight - prevScrollHeight;
             });
           }
         }
-      }, 1000),
+      }, 200),
   },
 };
 </script>

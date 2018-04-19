@@ -3,6 +3,15 @@ import { API_URI, tokenUrl, loginUrl, apiClientSecret, apiClientId } from '../en
 
 function headers() {
   const accessToken = JSON.parse(window.localStorage.getItem('authUser')).access_token;
+  if (window.Echo.socketId() !== undefined) {
+    return {
+      headers: {
+        Accept: 'application/json',
+        Authorization: `Bearer ${accessToken}`,
+        'X-Socket-ID': window.Echo.socketId(),
+      },
+    };
+  }
   return {
     headers: {
       Accept: 'application/json',
@@ -12,7 +21,8 @@ function headers() {
 }
 
 export default class apiRequest {
-  static get(path) {
+  static get(path, withoutURI = false) {
+    if (withoutURI) { return axios.get(`${path}`, headers()); }
     return axios.get(`${API_URI}/${path}`, headers());
   }
 

@@ -38,10 +38,9 @@ export default {
   },
   [types.PAGINATE_MESSAGE_SUCCESS](state, { messages, chatId }) {
     const chatIndex = state.chats.findIndex(chat => Number(chat.id) === Number(chatId));
-    const updatedChat = state.chats[chatIndex];
+    const updatedChat = { ...state.chats[chatIndex] };
     updatedChat.messages = [...messages, ...updatedChat.messages];
     state.chats.splice(chatIndex, 1, updatedChat);
-
     state.paginatedMessageLoading = false;
     state.status = 'success';
   },

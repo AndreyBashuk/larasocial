@@ -29,7 +29,7 @@ export const sendMessage = async ({ commit }, { newMessage, chatId }) => {
 export const paginateMessage = async ({ commit }, { chatId, next_page_url }) => {
   commit(types.PAGINATE_MESSAGE_START);
   try {
-    const { data: messages } = await apiRequest.get(next_page_url);
+    const { data: messages } = await apiRequest.get(next_page_url, true);
     commit(types.PAGINATE_MESSAGE_SUCCESS, {
       messages: messages.data,
       chatId,
